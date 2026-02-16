@@ -132,7 +132,7 @@ flowchart LR
 
 ### 3. SJF (Shortest Job First)
 
-This algorithm picks the process with the shortest burst time first. In this app, it's non-preemptive, meaning once a process starts, it finishes.
+This algorithm picks the process with the shortest burst time first. It's non-preemptive, meaning once a process starts, it finishes.
 
 How it works:
 - Sort all processes based on their burst time (we use bubble sort)
@@ -238,10 +238,8 @@ Will probably refactor later when I get better at C++.
 
 ## Contributing
 
-If you wanna improve this or add more algorithms (like SJF or SRTF), feel free to fork it and open a PR. Some things that could be added:
+If you wanna improve this or add more algorithms, feel free to fork it and open a PR. Some things that could be added:
 
-- Shortest Job First (SJF)
-- Shortest Remaining Time First (SRTF)
 - Arrival times (right now all processes arrive at time 0)
 - Better input validation
 - Reading from a file instead of typing everything
