@@ -255,6 +255,13 @@ Timeline:
 0                8         13     16
 ```
 
+```mermaid
+flowchart LR
+    A[Start] --> B[Sort by BT Descending]
+    B --> C[Run P with longest BT]
+    C --> D[Run P with next longest]
+```
+
 ---
 
 ### 7. LRTF (Longest Remaining Time First)
@@ -278,6 +285,13 @@ Timeline:
 0      3      4      5      6      7           16
 ```
 (Simplified view - actual timeline depends on precise tick-by-tick swaps)
+
+```mermaid
+flowchart TD
+    A[Every time tick] --> B{Longest remaining?}
+    B --> C[Run for 1 unit]
+    C --> A
+```
 
 ---
 
