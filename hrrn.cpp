@@ -11,12 +11,12 @@ using namespace std;
 void hrrn(int proc[],int bt[],int n)
 {
     int wt[100],tat[100];
-    int done[100]; // to track which ones are finished
+    int done[100];
     int order[100]; // order in which processes run
 
     for(int i=0;i<n;i++) done[i]=0;
 
-    int t=0; // current time
+    int t=0;
 
     for(int k=0;k<n;k++)
     {
@@ -28,7 +28,6 @@ void hrrn(int proc[],int bt[],int n)
         {
             if(done[i]==0)
             {
-                // waiting time for this process so far
                 float w = t;
                 // response ratio formula
                 float rr = (w + bt[i]) / (float)bt[i];

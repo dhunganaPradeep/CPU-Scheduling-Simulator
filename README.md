@@ -1,6 +1,6 @@
 # CPU Scheduling Simulator
 
-A console app that simulates how an OS schedules processes.It covers three algorithms - FCFS, Round Robin and Priority Scheduling. You pick one from the menu, enter burst times and it shows you the waiting time, turnaround time and a timeline chart.
+A console app that simulates how an OS schedules processes.It covers nine algorithms - FCFS(First Come First Serve), Round Robin(RR), Priority Scheduling(PS), SJF(Shortest Job First), SRTF(Shortest Remaining Time First), HRRN(Highest Response Ratio Next), LJF(Longest Job First), LRTF(Longest Remaining Time First) and MLFQ(Multi Level Feedback Queue). You pick one from the menu, enter burst times and it shows you the waiting time, turnaround time and a timeline chart.
 
 ## How to build and run
 
