@@ -100,7 +100,7 @@ void mlfq(int proc[],int bt[],int n)
         if(rem[i]<=0) continue;
         if(queue[i]!=3) continue;
 
-        int run_time=rem[i]; // just finish it
+        int run_time=rem[i];
 
         if(tl_count>0 && timeline_proc[tl_count-1]==proc[i])
             timeline_time[tl_count-1]+=run_time;
@@ -117,7 +117,6 @@ void mlfq(int proc[],int bt[],int n)
         if(wt[i]<0) wt[i]=0;
     }
 
-    // tat
     for(int i=0;i<n;i++)
         tat[i]=wt[i]+bt[i];
 
@@ -127,7 +126,6 @@ void mlfq(int proc[],int bt[],int n)
     cout<<"Q2 quantum = "<<q2<<endl;
     cout<<"Q3 = FCFS (no quantum)"<<endl;
 
-    // print table
     float totalWt=0,totalTat=0;
     cout<<"\n";
     cout<<"P\tBT\tWT\tTAT"<<endl;
@@ -141,7 +139,6 @@ void mlfq(int proc[],int bt[],int n)
     cout<<"\nAvg WT  = "<<totalWt/n<<endl;
     cout<<"Avg TAT = "<<totalTat/n<<endl;
 
-    // timeline
     cout<<"\nTimeline:\n";
     cout<<" ";
     for(int i=0;i<tl_count;i++){
