@@ -1,5 +1,5 @@
 #include<iostream>
-#include "priority.h"
+#include "header files/priority.h"
 using namespace std;
 
 // priority scheduling - lower number = higher priorit

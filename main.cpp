@@ -1,9 +1,9 @@
 #include<iostream>
-#include "fcfs.h"
-#include "roundrobin.h"
-#include "priority.h"
-#include "sjf.h"
-#include "srtf.h"
+#include "header files/fcfs.h"
+#include "header files/roundrobin.h"
+#include "header files/priority.h"
+#include "header files/sjf.h"
+#include "header files/srtf.h"
 
 using namespace std;
 

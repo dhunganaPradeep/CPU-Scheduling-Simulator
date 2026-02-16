@@ -1,5 +1,5 @@
 #include<iostream>
-#include "fcfs.h"
+#include "header files/fcfs.h"
 using namespace std;
 
 // fcfs is basically whoever comes first gets the cpu first
