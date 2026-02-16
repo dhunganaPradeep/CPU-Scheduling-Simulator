@@ -234,6 +234,8 @@ flowchart LR
 
 ---
 
+### 6. LJF (Longest Job First)
+
 Exactly what it says on the tin. Opposite of SJF. Picks the process with the longest burst time first. Useful for some specific batch systems maybe?
 
 ```
@@ -254,6 +256,8 @@ Timeline:
 ```
 
 ---
+
+### 7. LRTF (Longest Remaining Time First)
 
 Preemptive version of LJF. At every step, pick the one with the longest remaining time. 
 
