@@ -2,6 +2,8 @@
 #include "fcfs.h"
 #include "roundrobin.h"
 #include "priority.h"
+#include "sjf.h"
+#include "srtf.h"
 
 using namespace std;
 
@@ -20,16 +22,18 @@ int main()
         cout<<"1. FCFS (First Come First Serve)"<<endl;
         cout<<"2. Round Robin"<<endl;
         cout<<"3. Priority Scheduling"<<endl;
-        cout<<"4. Exit"<<endl;
+        cout<<"4. SJF (Shortest Job First)"<<endl;
+        cout<<"5. SRTF (Shortest Remaining Time First)"<<endl;
+        cout<<"6. Exit"<<endl;
         cout<<"\nEnter choice: ";
         cin>>choice;
 
-        if(choice==4){
+        if(choice==6){
             cout<<"\nBye!\n";
             break;
         }
 
-        if(choice<1 || choice>4){
+        if(choice<1 || choice>6){
             cout<<"Invalid choice try again"<<endl;
             continue;
         }
@@ -80,13 +84,23 @@ int main()
             cout<<"\n>> Priority Scheduling <<"<<endl;
             prioritySched(proc,bt,prio,n);
         }
+        else if(choice==4)
+        {
+            cout<<"\n>> SJF Scheduling <<"<<endl;
+            sjf(proc,bt,n);
+        }
+        else if(choice==5)
+        {
+            cout<<"\n>> SRTF Scheduling <<"<<endl;
+            srtf(proc,bt,n);
+        }
 
         cout<<"\nDo you want to continue? (y/n): ";
         cin>>again;
 
     } while(again=='y' || again=='Y');
 
-    if(again!='y' && again!='Y' && choice!=4)
+    if(again!='y' && again!='Y' && choice!=6)
         cout<<"\nThanks for using the scheduler!\n";
 
     return 0;

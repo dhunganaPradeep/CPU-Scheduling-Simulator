@@ -59,7 +59,7 @@ void prioritySched(int proc[],int bt[],int prio[],int n)
         totalWt += wt[i];
         totalTat += tat[i];
     }
-
+    
     cout<<"\nAvg WT  = "<<totalWt/n<<endl;
     cout<<"Avg TAT = "<<totalTat/n<<endl;
 

@@ -37,6 +37,14 @@ Enter choice:
 
 ## The Algorithms
 
+| Algorithm | Pros | Cons |
+|---|---|---|
+| FCFS | Simple, easy to implement | Long processes block short ones |
+| Round Robin | Fair, everyone gets a turn | Depends on quantum size a lot |
+| Priority | Important stuff runs first | Low priority processes can starve |
+| SJF | Minimum average waiting time | Hard to know burst time in real life |
+| SRTF | Even better than SJF | Lots of switching (overhead) |
+
 ### 1. FCFS (First Come First Serve)
 
 This is the simplest one. Processes run in the order they arrive. Whoever comes first gets the CPU first.
@@ -122,7 +130,44 @@ flowchart LR
 
 ---
 
-### 3. Priority Scheduling
+### 3. SJF (Shortest Job First)
+
+This algorithm picks the process with the shortest burst time first. In this app, it's non-preemptive, meaning once a process starts, it finishes.
+
+How it works:
+- Sort all processes based on their burst time (we use bubble sort)
+- Run them in that sorted order
+- Since they all arrive at time 0 right now, it's very easy: just pick the smallest one first
+
+```mermaid
+flowchart LR
+    A[Start] --> B[Sort by BT]
+    B --> C[Run P with smallest BT]
+    C --> D[Run P with next smallest]
+```
+
+---
+
+### 4. SRTF (Shortest Remaining Time First)
+
+This is the preemptive version of SJF. At every time tick, the OS checks if there is any other process with a shorter remaining time than the current one.
+
+How it works:
+- Keep track of remaining burst time for everyone
+- At each step, pick the one with the smallest remaining time
+- Run for 1 unit and check again
+- (Note: Because everyone arrives at t=0, it will look like SJF for now, but the code is ready for preemption if arrival times are added!)
+
+```mermaid
+flowchart TD
+    A[Every time tick] --> B{Shortest remaining?}
+    B --> C[Run for 1 unit]
+    C --> A
+```
+
+---
+
+### 5. Priority Scheduling
 
 Each process has a priority number. Lower number = higher priority. We sort the processes by priority and then its basically FCFS on the sorted list.
 
@@ -174,6 +219,10 @@ CPU Scheduler/
   roundrobin.cpp   - round robin algorithm
   priority.h       - priority scheduling declaration
   priority.cpp     - priority scheduling algorithm
+  sjf.h            - sjf declaration
+  sjf.cpp          - sjf algorithm
+  srtf.h           - srtf declaration
+  srtf.cpp         - srtf algorithm
   Makefile         - build file
 ```
 
