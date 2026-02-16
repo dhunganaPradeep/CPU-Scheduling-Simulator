@@ -7,7 +7,7 @@ A console app that simulates how an OS schedules processes.It covers three algor
 You need g++ installed. Then just:
 
 ```bash
-g++ -Wall -o scheduler main.cpp fcfs.cpp roundrobin.cpp priority.cpp
+g++ -Wall -o scheduler main.cpp fcfs.cpp roundrobin.cpp priority.cpp sjf.cpp srtf.cpp hrrn.cpp ljf.cpp lrtf.cpp mlfq.cpp
 ./scheduler
 ```
 
