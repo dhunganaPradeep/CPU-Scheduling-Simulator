@@ -44,6 +44,10 @@ Enter choice:
 | Priority | Important stuff runs first | Low priority processes can starve |
 | SJF | Minimum average waiting time | Hard to know burst time in real life |
 | SRTF | Even better than SJF | Lots of switching (overhead) |
+| HRRN | No starvation, fair | Complex calculation |
+| LJF | Simple | Long jobs block short ones (worst case) |
+| LRTF | Fairer for long jobs | High overhead |
+| MLFQ | Good balance for all jobs | Complex to tune |
 
 ### 1. FCFS (First Come First Serve)
 
@@ -134,10 +138,24 @@ flowchart LR
 
 This algorithm picks the process with the shortest burst time first. It's non-preemptive, meaning once a process starts, it finishes.
 
-How it works:
-- Sort all processes based on their burst time (we use bubble sort)
-- Run them in that sorted order
 - Since they all arrive at time 0 right now, it's very easy: just pick the smallest one first
+
+```
+processes with burst 5, 3, 8
+
+- P2 has smallest burst (3), runs first
+- P1 has next smallest (5), runs second
+- P3 is longest (8), runs last
+```
+
+Timeline:
+
+```
+ ------ ---------- ----------------
+|  P2  |    P1    |       P3       |
+ ------ ---------- ----------------
+0      3          8               16
+```
 
 ```mermaid
 flowchart LR
@@ -152,11 +170,26 @@ flowchart LR
 
 This is the preemptive version of SJF. At every time tick, the OS checks if there is any other process with a shorter remaining time than the current one.
 
-How it works:
-- Keep track of remaining burst time for everyone
 - At each step, pick the one with the smallest remaining time
 - Run for 1 unit and check again
 - (Note: Because everyone arrives at t=0, it will look like SJF for now, but the code is ready for preemption if arrival times are added!)
+
+```
+processes with burst 5, 3, 8
+
+- At t=0, P2 is shortest (3), runs to completion (since no one else arrives)
+- At t=3, P1 is now shortest (5), runs to completion
+- Finally P3 (8) runs
+```
+
+Timeline:
+
+```
+ ------ ---------- ----------------
+|  P2  |    P1    |       P3       |
+ ------ ---------- ----------------
+0      3          8               16
+```
 
 ```mermaid
 flowchart TD
@@ -167,7 +200,118 @@ flowchart TD
 
 ---
 
-### 5. Priority Scheduling
+### 5. HRRN (Highest Response Ratio Next)
+
+- Response Ratio = (Waiting Time + Burst Time) / Burst Time
+- If a process waits a long time, its ratio goes up, so it eventually gets to run.
+
+```
+processes with burst 5, 3, 8
+
+- At t=0, P1 runs first (FCFS order for t=0)
+- At t=5, P1 finishes.
+  RR(P2) = (5+3)/3 = 2.66
+  RR(P3) = (5+8)/8 = 1.62
+- P2 has higher RR, runs next till t=8
+- P3 runs last till t=16
+```
+
+Timeline:
+
+```
+ ---------- ------ ----------------
+|    P1    |  P2  |       P3       |
+ ---------- ------ ----------------
+0          5      8               16
+```
+
+```mermaid
+flowchart LR
+    A[Calculate RR for all] --> B[Pick highest RR]
+    B --> C[Run till done]
+    C --> A
+```
+
+---
+
+Exactly what it says on the tin. Opposite of SJF. Picks the process with the longest burst time first. Useful for some specific batch systems maybe?
+
+```
+processes with burst 5, 3, 8
+
+- P3 is longest (8), runs first
+- P1 is next longest (5), runs second
+- P2 is shortest (3), runs last
+```
+
+Timeline:
+
+```
+ ---------------- ---------- ------
+|       P3       |    P1    |  P2  |
+ ---------------- ---------- ------
+0                8         13     16
+```
+
+---
+
+Preemptive version of LJF. At every step, pick the one with the longest remaining time. 
+
+```
+processes with burst 5, 3, 8
+
+- At t=0, P3 is longest. Runs for 3 units (until its remaining time is 5)
+- At t=3, P3 and P1 both have 5 units left.
+- Logic picks next in line (P1), runs for some time, keeps balancing them.
+```
+
+Timeline:
+
+```
+ ------ ------ ------ ------ ------ ------ ------
+|  P3  |  P1  |  P3  |  P1  |  P3  | ...etc...  |
+ ------ ------ ------ ------ ------ ------ ------
+0      3      4      5      6      7           16
+```
+(Simplified view - actual timeline depends on precise tick-by-tick swaps)
+
+---
+
+### 8. MLFQ (Multi Level Feedback Queue)
+
+- Q3: Low priority, FCFS
+
+Processes that use up their whole quantum in a high queue get demoted to a lower one.
+
+```
+processes with burst 5, 3, 8 | Q1=4, Q2=8
+
+Q1: P1 runs 4 (moves to Q2), P2 runs 3 (done), P3 runs 4 (moves to Q2)
+Q2: P1 runs 1 (done), P3 runs 4 (done)
+```
+
+Timeline:
+
+```
+ -------- ------ -------- -- --------
+|   P1   |  P2  |   P3   |P1|   P3   |
+ -------- ------ -------- -- --------
+0        4      7       11 12       16
+```
+
+```mermaid
+graph TD
+    A[New Process] --> B[Queue 1: Q=4]
+    B -- "Not done" --> C[Queue 2: Q=8]
+    C -- "Not done" --> D[Queue 3: FCFS]
+    B -- "Done" --> E[Exit]
+    C -- "Done" --> E
+    D -- "Done" --> E
+```
+
+---
+
+### 9. Priority Scheduling
 
 Each process has a priority number. Lower number = higher priority. We sort the processes by priority and then its basically FCFS on the sorted list.
 
@@ -213,16 +357,24 @@ flowchart TD
 ```
 CPU Scheduler/
   main.cpp         - menu, input, main loop
-  fcfs.h           - fcfs function declaration
+  header files/fcfs.h - fcfs function declaration
   fcfs.cpp         - fcfs algorithm
-  roundrobin.h     - round robin declaration
+  header files/roundrobin.h - round robin declaration
   roundrobin.cpp   - round robin algorithm
-  priority.h       - priority scheduling declaration
+  header files/priority.h - priority scheduling declaration
   priority.cpp     - priority scheduling algorithm
-  sjf.h            - sjf declaration
+  header files/sjf.h - sjf declaration
   sjf.cpp          - sjf algorithm
-  srtf.h           - srtf declaration
+  header files/srtf.h - srtf declaration
   srtf.cpp         - srtf algorithm
+  header files/hrrn.h - hrrn declaration
+  hrrn.cpp         - hrrn algorithm
+  header files/ljf.h - ljf declaration
+  ljf.cpp          - ljf algorithm
+  header files/lrtf.h - lrtf declaration
+  lrtf.cpp         - lrtf algorithm
+  header files/mlfq.h - mlfq declaration
+  mlfq.cpp         - mlfq algorithm
   Makefile         - build file
 ```
 

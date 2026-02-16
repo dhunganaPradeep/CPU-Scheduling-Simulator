@@ -4,6 +4,10 @@
 #include "header files/priority.h"
 #include "header files/sjf.h"
 #include "header files/srtf.h"
+#include "header files/hrrn.h"
+#include "header files/ljf.h"
+#include "header files/lrtf.h"
+#include "header files/mlfq.h"
 
 using namespace std;
 
@@ -24,16 +28,20 @@ int main()
         cout<<"3. Priority Scheduling"<<endl;
         cout<<"4. SJF (Shortest Job First)"<<endl;
         cout<<"5. SRTF (Shortest Remaining Time First)"<<endl;
-        cout<<"6. Exit"<<endl;
+        cout<<"6. HRRN (Highest Response Ratio Next)"<<endl;
+        cout<<"7. LJF (Longest Job First)"<<endl;
+        cout<<"8. LRTF (Longest Remaining Time First)"<<endl;
+        cout<<"9. MLFQ (Multi Level Feedback Queue)"<<endl;
+        cout<<"10. Exit"<<endl;
         cout<<"\nEnter choice: ";
         cin>>choice;
 
-        if(choice==6){
+        if(choice==10){
             cout<<"\nBye!\n";
             break;
         }
 
-        if(choice<1 || choice>6){
+        if(choice<1 || choice>10){
             cout<<"Invalid choice try again"<<endl;
             continue;
         }
@@ -94,13 +102,33 @@ int main()
             cout<<"\n>> SRTF Scheduling <<"<<endl;
             srtf(proc,bt,n);
         }
+        else if(choice==6)
+        {
+            cout<<"\n>> HRRN Scheduling <<"<<endl;
+            hrrn(proc,bt,n);
+        }
+        else if(choice==7)
+        {
+            cout<<"\n>> LJF Scheduling <<"<<endl;
+            ljf(proc,bt,n);
+        }
+        else if(choice==8)
+        {
+            cout<<"\n>> LRTF Scheduling <<"<<endl;
+            lrtf(proc,bt,n);
+        }
+        else if(choice==9)
+        {
+            cout<<"\n>> MLFQ Scheduling <<"<<endl;
+            mlfq(proc,bt,n);
+        }
 
         cout<<"\nDo you want to continue? (y/n): ";
         cin>>again;
 
     } while(again=='y' || again=='Y');
 
-    if(again!='y' && again!='Y' && choice!=6)
+    if(again!='y' && again!='Y' && choice!=10)
         cout<<"\nThanks for using the scheduler!\n";
 
     return 0;
